@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хранитель Алтаря (Altar Guardian)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <header>
+            <h1>Хранитель Алтаря</h1>
+            <div class="resource-bar">
+                <div class="resource-item">День: <span id="day-count">1</span></div>
+                <div class="resource-item">Мана: <span id="mana-count">100</span></div>
+                <div class="resource-item">Провизия: <span id="supplies-count">50</span></div>
+                <div class="resource-item">Материя: <span id="fragments-count">0</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div id="game-log" class="log-window">
+                <p>Добро пожаловать в Хранителя Алтаря...</p>
+            </div>
+            
+            <div class="status-display">
+                <p>Стены: <span id="wall-health">100</span>% | Стражники: <span id="guard-strength">10</span></p>
+            </div>
+        </main>
+
+        <footer>
+            <div class="action-panel" id="action-panel">
+                <button class="action-btn" onclick="game.handleAction('supply')">Сбор провизии (+20)</button>
+                <button class="action-btn" onclick="game.handleAction('fortify')">Укрепить стены (+20)</button>
+                <button class="action-btn" onclick="game.handleAction('train')">Обучение (+10)</button>
+                <button class="action-btn" onclick="game.handleAction('rest')">Отдых (Восстановление)</button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
