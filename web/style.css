@@ -1,0 +1,123 @@
+:root {
+    --bg-color: #1a1a1a;
+    --panel-bg: #2d2d2d;
+    --text-color: #e0e0e0;
+    --accent-color: #d4af37; /* Gold */
+    --border-color: #4a4a4a;
+    --danger-color: #a00;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#game-container {
+    width: 90%;
+    max-width: 800px;
+    background-color: var(--panel-bg);
+    border: 3px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+.resource-bar {
+    display: flex;
+    gap: 20px;
+    font-weight: bold;
+}
+
+.resource-item span {
+    color: var(--accent-color);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.log-window {
+    flex: 1;
+    background-color: #000;
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    color: #00ff00; /* Matrix-ish green for logs */
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 4px;
+}
+
+.status-display {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    text-align: center;
+}
+
+footer {
+    border-top: 2px solid var(--accent-color);
+    padding-top: 20px;
+}
+
+.action-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.action-btn {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--accent-color);
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 4px;
+}
+
+.action-btn:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #222;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+}
