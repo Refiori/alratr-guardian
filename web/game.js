@@ -11,6 +11,26 @@ const gameData = {
 };
 
 const logElement = document.getElementById('game-log');
+const sceneElement = document.getElementById('scene');
+const guardSlots = document.querySelectorAll('.guard-slot');
+
+// Уровень повреждения стен для картинки: 0 - целые, 3 - почти разрушены
+function getWallDamageLevel(health) {
+    if (health > 75) return 0;
+    if (health > 50) return 1;
+    if (health > 25) return 2;
+    return 3;
+}
+
+// Сцена повторяет состояние игры: трещины по здоровью стен, стражники по силе
+function updateScene() {
+    sceneElement.dataset.damage = getWallDamageLevel(gameData.wallHealth);
+
+    const guardCount = Math.min(guardSlots.length, 3 + Math.floor(gameData.guardStrength / 10));
+    guardSlots.forEach((slot, i) => {
+        slot.classList.toggle('hidden', i >= guardCount);
+    });
+}
 
 function updateUI() {
     document.getElementById('day-count').innerText = gameData.day;
@@ -23,6 +43,8 @@ function updateUI() {
     if (gameData.wallHealth <= 0) {
         document.getElementById('wall-health').innerText = 0;
     }
+
+    updateScene();
 }
 
 function logMessage(message) {

@@ -178,3 +178,32 @@ footer {
 @media (prefers-reduced-motion: reduce) {
     #scene * { animation: none !important; }
 }
+
+/* ===== Этап 2: сцена зависит от состояния игры ===== */
+
+/* Появление стражника при обучении */
+.guard-slot {
+    transform-box: fill-box;
+    transition: opacity .7s ease, transform .7s ease;
+}
+.guard-slot.hidden {
+    opacity: 0;
+    transform: translateY(-16px);
+}
+
+/* Повреждения стен: уровни накапливаются, при починке исчезают */
+.dmg { opacity: 0; transition: opacity .8s ease; }
+.crack, .crack path { fill: none; stroke: #12112a; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.rubble polygon { fill: #625f76; stroke: #000; stroke-opacity: .35; stroke-width: .6; }
+
+#scene:is([data-damage="1"], [data-damage="2"], [data-damage="3"]) .dmg-1,
+#scene:is([data-damage="2"], [data-damage="3"]) .dmg-2,
+#scene[data-damage="3"] .dmg-3 { opacity: 1; }
+
+#walls, #walls-front { transition: filter .8s ease; }
+#scene[data-damage="2"] #walls, #scene[data-damage="2"] #walls-front { filter: brightness(.85); }
+#scene[data-damage="3"] #walls, #scene[data-damage="3"] #walls-front { filter: brightness(.7) saturate(.8); }
+
+@media (prefers-reduced-motion: reduce) {
+    #scene *, #walls, #walls-front { transition: none !important; }
+}

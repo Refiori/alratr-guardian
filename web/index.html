@@ -95,6 +95,21 @@
                         <rect class="window" x="134" y="140" width="14" height="24" rx="7" fill="#ffb347"/>
                         <rect class="window" x="652" y="140" width="14" height="24" rx="7" fill="#ffb347"/>
 
+                        <!-- Повреждения стен: уровни 1-3 включаются из game.js -->
+                        <g class="dmg dmg-1 crack">
+                            <path d="M250 176 l8 14 -6 12 10 16"/><path d="M520 186 l-7 12 8 10 -4 14"/>
+                            <path d="M125 150 l8 14 -5 12"/><path d="M672 160 l-6 12 7 10"/>
+                        </g>
+                        <g class="dmg dmg-2 crack">
+                            <path d="M330 196 l10 12 -8 14 12 18"/><path d="M450 172 l6 16 -9 12"/><path d="M580 205 l-8 10 6 14"/>
+                            <path d="M155 190 l-8 14 6 12 -4 14"/><path d="M645 205 l8 12 -6 14"/>
+                        </g>
+                        <g class="dmg dmg-3">
+                            <polygon points="470,164 500,164 506,184 494,196 480,190 472,176" fill="#1b1838"/>
+                            <path class="crack" d="M300 170 l12 22 -10 16 14 24 -8 22"/>
+                            <path class="crack" d="M118 220 l10 10 -6 14 8 14"/><path class="crack" d="M680 190 l-9 14 7 12"/>
+                        </g>
+
                         <circle cx="141" cy="198" r="22" fill="url(#torchGlow)"/>
                         <circle cx="659" cy="198" r="22" fill="url(#torchGlow)"/>
                         <rect x="139" y="200" width="4" height="12" fill="#3a2a1a"/>
@@ -127,16 +142,32 @@
                         <line x1="118" y1="258" x2="300" y2="258" stroke="#625f76" stroke-width="8" stroke-dasharray="16 10"/>
                         <rect x="500" y="262" width="182" height="36" fill="url(#bricksFront)"/>
                         <line x1="500" y1="258" x2="682" y2="258" stroke="#625f76" stroke-width="8" stroke-dasharray="16 10"/>
+                        <g class="dmg dmg-1 crack"><path d="M170 266 l6 12 -5 10"/><path d="M620 268 l-5 10 6 12"/></g>
+                        <g class="dmg dmg-2 crack"><path d="M230 264 l8 14 -7 14"/><path d="M540 266 l6 12 -8 14"/></g>
+                        <g class="dmg dmg-2 rubble">
+                            <polygon points="304,298 314,292 322,299 312,303"/><polygon points="486,299 494,293 502,299 494,304"/>
+                        </g>
+                        <g class="dmg dmg-3">
+                            <polygon points="230,258 262,258 258,276 240,282 228,270" fill="#221f36"/>
+                            <polygon points="590,258 622,258 618,274 604,280 592,268" fill="#221f36"/>
+                            <g class="rubble">
+                                <polygon points="200,300 212,293 222,301 210,306"/><polygon points="252,284 262,280 268,288 258,292"/>
+                                <polygon points="632,300 644,294 654,302 642,307"/><polygon points="606,285 616,280 622,288 612,292"/>
+                                <polygon points="322,305 332,300 338,307 328,310"/>
+                            </g>
+                        </g>
                     </g>
 
-                    <!-- Стражники -->
+                    <!-- Стражники: 8 мест, число видимых зависит от Guard Strength -->
                     <g id="guards">
-                        <g transform="translate(240 170) scale(.85)"><g class="guard-body" style="--d:.2s"><use href="#guard-shape"/></g></g>
-                        <g transform="translate(560 170) scale(.85)"><g class="guard-body" style="--d:1.1s"><use href="#guard-shape"/></g></g>
-                        <g transform="translate(335 292)"><g class="guard-body" style="--d:.6s"><use href="#guard-shape"/></g></g>
-                        <g transform="translate(465 292)"><g class="guard-body" style="--d:1.5s"><use href="#guard-shape"/></g></g>
-                        <g transform="translate(372 312) scale(1.15)"><g class="guard-body" style="--d:.9s"><use href="#guard-shape"/></g></g>
-                        <g transform="translate(428 312) scale(1.15)"><g class="guard-body" style="--d:.3s"><use href="#guard-shape"/></g></g>
+                        <g transform="translate(335 292)"><g class="guard-slot"><g class="guard-body" style="--d:.6s"><use href="#guard-shape"/></g></g></g>
+                        <g transform="translate(465 292)"><g class="guard-slot"><g class="guard-body" style="--d:1.5s"><use href="#guard-shape"/></g></g></g>
+                        <g transform="translate(372 312) scale(1.15)"><g class="guard-slot"><g class="guard-body" style="--d:.9s"><use href="#guard-shape"/></g></g></g>
+                        <g transform="translate(428 312) scale(1.15)"><g class="guard-slot"><g class="guard-body" style="--d:.3s"><use href="#guard-shape"/></g></g></g>
+                        <g transform="translate(240 170) scale(0.85)"><g class="guard-slot hidden"><g class="guard-body" style="--d:.2s"><use href="#guard-shape"/></g></g></g>
+                        <g transform="translate(560 170) scale(0.85)"><g class="guard-slot hidden"><g class="guard-body" style="--d:1.1s"><use href="#guard-shape"/></g></g></g>
+                        <g transform="translate(141 110) scale(0.8)"><g class="guard-slot hidden"><g class="guard-body" style="--d:1.8s"><use href="#guard-shape"/></g></g></g>
+                        <g transform="translate(659 110) scale(0.8)"><g class="guard-slot hidden"><g class="guard-body" style="--d:.7s"><use href="#guard-shape"/></g></g></g>
                     </g>
                 </svg>
             </div>
