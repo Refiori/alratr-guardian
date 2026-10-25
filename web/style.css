@@ -207,3 +207,98 @@ footer {
 @media (prefers-reduced-motion: reduce) {
     #scene *, #walls, #walls-front { transition: none !important; }
 }
+
+/* ===== Этап 3: анимации дневных действий ===== */
+#scene { position: relative; }
+
+/* Всплывающие надписи */
+.float-fx {
+    position: absolute;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    text-shadow: 0 0 6px #000, 0 1px 2px #000;
+    pointer-events: none;
+    animation: float-up 1.6s ease-out forwards;
+}
+.float-supply  { color: #f0c36a; }
+.float-fortify { color: #b8c4ff; }
+.float-train   { color: #ffd84d; }
+.float-rest    { color: #8ff5ff; }
+
+@keyframes float-up {
+    0%   { opacity: 0; transform: translate(-50%, 8px); }
+    15%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -48px); }
+}
+
+/* Сбор провизии: тележка с ящиками приезжает слева */
+.cart { opacity: 0; transform: translateX(-60px); }
+.wheel { transform-box: fill-box; transform-origin: center; }
+#scene.fx-supply .cart { animation: cart-run 1.7s ease-in-out forwards; }
+#scene.fx-supply .wheel { animation: spin .5s linear infinite; }
+@keyframes cart-run {
+    0%   { opacity: 0; transform: translateX(-60px); }
+    12%  { opacity: 1; }
+    50%, 72% { opacity: 1; transform: translateX(230px); }
+    100% { opacity: 0; transform: translateX(340px); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Укрепление стен: строители с молотами, искры, вспышка на камне */
+.builder { opacity: 0; transition: opacity .3s ease; }
+.hammer { transform-origin: 0 0; transform: rotate(-35deg); }
+.hspark { opacity: 0; }
+#scene.fx-fortify .builder { opacity: 1; }
+#scene.fx-fortify .hammer { animation: hammer .5s ease-in-out 3; }
+#scene.fx-fortify .hspark { animation: hspark .5s ease-out 3; }
+#scene.fx-fortify #walls, #scene.fx-fortify #walls-front { animation: repair-flash 1.5s ease-out; }
+@keyframes hammer {
+    0%, 100% { transform: rotate(-35deg); }
+    50%      { transform: rotate(15deg); }
+}
+@keyframes hspark {
+    0%, 45% { opacity: 0; transform: translate(0, 0); }
+    50%     { opacity: 1; }
+    100%    { opacity: 0; transform: translate(var(--dx), var(--dy)); }
+}
+@keyframes repair-flash {
+    0%   { filter: brightness(1); }
+    25%  { filter: brightness(1.6) sepia(.4); }
+    100% { filter: brightness(1); }
+}
+
+/* Обучение: стражники подпрыгивают с золотым свечением, по площадке бежит кольцо */
+.train-ring { opacity: 0; transform-box: fill-box; transform-origin: center; vector-effect: non-scaling-stroke; }
+#scene.fx-train .guard-body {
+    transform-origin: 50% 100%;
+    animation: cheer .55s ease-in-out 3;
+    filter: drop-shadow(0 0 4px #ffd84d);
+}
+#scene.fx-train .train-ring { animation: train-ring .85s ease-out 2; }
+@keyframes cheer {
+    0%, 100% { transform: translateY(0) scale(1); }
+    40%      { transform: translateY(-9px) scale(1.06); }
+}
+@keyframes train-ring {
+    0%   { opacity: .9; transform: scale(1); }
+    100% { opacity: 0;  transform: scale(9); }
+}
+
+/* Отдых: частицы маны слетаются к кристаллу, он вспыхивает */
+.mote { opacity: 0; }
+.crystal { transition: filter .4s ease; }
+#scene.fx-rest .mote { animation: mote 1.3s ease-in forwards; animation-delay: var(--d, 0s); }
+#scene.fx-rest .halo { animation: halo-burst 1.6s ease-out; }
+#scene.fx-rest .crystal { filter: drop-shadow(0 0 8px #9ff7ff) brightness(1.4); }
+@keyframes mote {
+    0%   { opacity: 0; transform: translate(0, 0) scale(1); }
+    20%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.4); }
+}
+@keyframes halo-burst {
+    0%   { opacity: .65; transform: scale(1); }
+    40%  { opacity: 1;   transform: scale(2); }
+    100% { opacity: .65; transform: scale(1); }
+}
