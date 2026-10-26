@@ -302,3 +302,67 @@ footer {
     40%  { opacity: 1;   transform: scale(2); }
     100% { opacity: .65; transform: scale(1); }
 }
+
+/* ===== Этап 4: ночь ===== */
+.action-btn:disabled { opacity: .4; cursor: not-allowed; }
+.action-btn:disabled:hover {
+    background-color: transparent;
+    color: var(--text-color);
+    box-shadow: none;
+}
+
+/* Затемнение сцены ночью */
+#night-shade, #shield, #hit-flash { opacity: 0; pointer-events: none; }
+#night-shade { transition: opacity .8s ease; }
+#scene.is-night #night-shade { opacity: .4; }
+
+.enemy-body { animation: enemy-hop .28s ease-in-out infinite; }
+@keyframes enemy-hop { 50% { transform: translateY(-3px); } }
+
+/* Отражённая атака: щит, молнии, вспышка кристалла */
+#shield { transform-box: fill-box; transform-origin: center; }
+#scene.fx-defend #shield { animation: shield-flash 1.3s ease-out; }
+@keyframes shield-flash {
+    0%   { opacity: 0;  transform: scale(.6); }
+    25%  { opacity: .9; transform: scale(1); }
+    100% { opacity: 0;  transform: scale(1.1); }
+}
+.bolt {
+    stroke: #9ff7ff;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 4px #9ff7ff);
+    opacity: 0;
+    animation: bolt .4s ease-out both;
+}
+@keyframes bolt {
+    0%   { opacity: 0; }
+    20%  { opacity: 1; }
+    100% { opacity: 0; stroke-width: 0.5; }
+}
+#scene.fx-gain .halo { animation: halo-burst .9s ease-out; }
+#scene.fx-gain .crystal { filter: drop-shadow(0 0 8px #c9a7ff) brightness(1.4); }
+
+/* Прорыв: тряска, красная вспышка, стены вздрагивают */
+#scene.fx-hit svg { animation: shake .5s linear; }
+#scene.fx-hit #hit-flash { animation: hit-flash .6s ease-out; }
+#scene.fx-hit #walls, #scene.fx-hit #walls-front { animation: wall-hit .6s ease-out; }
+@keyframes shake {
+    0%, 100% { transform: translate(0, 0); }
+    15% { transform: translate(-6px, 3px); }
+    30% { transform: translate(5px, -3px); }
+    45% { transform: translate(-4px, 2px); }
+    60% { transform: translate(3px, -2px); }
+    80% { transform: translate(-2px, 1px); }
+}
+@keyframes hit-flash {
+    0%   { opacity: .4; }
+    100% { opacity: 0; }
+}
+@keyframes wall-hit {
+    0%   { filter: brightness(2.2) sepia(.6) hue-rotate(-30deg); }
+    100% { filter: brightness(1); }
+}
+
+.float-fragments { color: #c9a7ff; }
+.float-damage    { color: #ff6b6b; }

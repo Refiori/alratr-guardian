@@ -63,6 +63,11 @@
                             <path d="M-6.2 -27 A6.2 6.2 0 0 1 6.2 -27 Z" fill="#aab1c2"/>
                             <rect x="-1" y="-37" width="2" height="5" fill="#c23b3b"/>
                         </g>
+                    <g id="enemy-shape">
+                            <ellipse cx="0" cy="0" rx="11" ry="3" fill="#000" opacity=".4"/>
+                            <path d="M-11 0 C-14 -14 -8 -26 0 -26 C8 -26 14 -14 11 0 L7 -4 L3 0 L0 -4 L-3 0 L-7 -4 Z" fill="#2a1647" stroke="#8a4dff" stroke-width="1"/>
+                            <circle cx="-4" cy="-16" r="2.2" fill="#ff4d6d"/><circle cx="4" cy="-16" r="2.2" fill="#ff4d6d"/>
+                        </g>
                     </defs>
 
                     <!-- Небо -->
@@ -171,6 +176,12 @@
                         <g transform="translate(659 110) scale(0.8)"><g class="guard-slot hidden"><g class="guard-body" style="--d:.7s"><use href="#guard-shape"/></g></g></g>
                     </g>
                 
+                    <!-- Этап 4: ночь. Враги и молнии создаются в game.js внутри #enemies -->
+                    <rect id="night-shade" width="800" height="340" fill="#1a0b33"/>
+                    <ellipse id="shield" cx="400" cy="235" rx="150" ry="105" fill="url(#glow)" stroke="#9ff7ff" stroke-width="2"/>
+                    <g id="enemies"></g>
+                    <rect id="hit-flash" width="800" height="340" fill="#ff1f3d"/>
+
                     <!-- Этап 3: эффекты дневных действий (включаются классами fx-* на #scene) -->
                     <g id="cart-wrap" transform="translate(0 332)">
                         <g class="cart">
