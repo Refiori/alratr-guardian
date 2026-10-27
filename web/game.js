@@ -5,7 +5,7 @@ const gameData = {
     supplies: 50,
     fragments: 0,
     wallHealth: 100,
-    guardStrength: 10,
+    guardStrength: 40,
     isGameOver: false,
     isBusy: false,
     victory: false
@@ -27,7 +27,7 @@ function getWallDamageLevel(health) {
 function updateScene() {
     sceneElement.dataset.damage = getWallDamageLevel(gameData.wallHealth);
 
-    const guardCount = Math.min(guardSlots.length, 3 + Math.floor(gameData.guardStrength / 10));
+    const guardCount = Math.min(guardSlots.length, 4 + Math.floor(gameData.guardStrength / 10));
     guardSlots.forEach((slot, i) => {
         slot.classList.toggle('hidden', i >= guardCount);
     });
@@ -325,6 +325,31 @@ const game = {
         showFloatingText('Ночь', 'night', 50, 30);
 
         const enemyPower = 15 + (gameData.day * 2);
+        
+        // Потребление провизии (1 ед. на каждые 10 ед. силы стражи)
+        const foodNeeded = Math.ceil(gameData.guardStrength / 10);
+        if (gameData.supplies >= foodNeeded) {
+            gameData.supplies -= foodNeeded;
+            logMessage(`Стражники съели ${foodNeeded} ед. провизии.`);
+        } else {
+            const eaten = gameData.supplies;
+            gameData.supplies = 0;
+            const penalty = Math.ceil((foodNeeded - eaten) * 2);
+            gameData.guardStrength = Math.max(0, gameData.guardStrength - penalty);
+            logMessage(`Провизии не хватило! Стражники голодают. Сила упала на ${penalty}.`);
+        }
+
+        // Расход маны на щит (10% от силы волны)
+        const manaCost = Math.floor(enemyPower * 0.1);
+        if (gameData.mana >= manaCost) {
+            gameData.mana -= manaCost;
+            logMessage(`Магический щит поглотил часть удара (Затрачено маны: ${manaCost}).`);
+        } else {
+            const usedMana = gameData.mana;
+            gameData.mana = 0;
+            logMessage(`Мана почти иссякла! Щит слабеет.`);
+        }
+
         const defense = gameData.wallHealth + gameData.guardStrength;
 
         logMessage(`Прибыла волна из Пустоты (Сила: ${enemyPower}). Ваша оборона: ${defense}`);
