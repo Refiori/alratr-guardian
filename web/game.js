@@ -83,7 +83,9 @@ function playDayEffect(type, before) {
 }
 
 function updateUI() {
-    document.getElementById('day-count').innerText = gameData.day;
+    document.getElementById('day-count').innerText = Math.min(gameData.day, gameData.maxDays);
+    const daysDone = Math.min(gameData.day, gameData.maxDays + 1) - 1;
+    document.getElementById('day-progress-fill').style.width = (daysDone / gameData.maxDays * 100) + '%';
     document.getElementById('mana-count').innerText = gameData.mana;
     document.getElementById('supplies-count').innerText = gameData.supplies;
     document.getElementById('fragments-count').innerText = gameData.fragments;
@@ -250,6 +252,31 @@ async function playBreach(enemies, damage, onImpact) {
     clearEnemies(enemies);
 }
 
+// ===== Этап 5: финал игры =====
+const endScreen = document.getElementById('end-screen');
+
+async function showEnding(win) {
+    // Сцена: победа - рассвет и лучи, поражение - разрушенный алтарь
+    sceneElement.classList.add(win ? 'is-victory' : 'is-defeat');
+    showFloatingText(win ? 'Победа!' : 'Алтарь пал', win ? 'day' : 'damage', 50, 30);
+    await wait(reduceMotion ? 300 : 2200);
+
+    const daysHeld = win ? gameData.maxDays : Math.max(0, gameData.day - 1);
+    document.getElementById('end-title').innerText = win ? 'Победа!' : 'Алтарь пал';
+    document.getElementById('end-text').innerText = win
+        ? `Вы выстояли все ${gameData.maxDays} дней, и рассвет прогнал тьму Пустоты.`
+        : 'Волна из Пустоты прорвала оборону и разрушила алтарь.';
+    document.getElementById('end-stats').innerHTML = [
+        ['Дней обороны', `${daysHeld} / ${gameData.maxDays}`],
+        ['Материя', gameData.fragments],
+        ['Сила стражи', gameData.guardStrength]
+    ].map(([label, value]) => `<div class="stat"><span>${value}</span>${label}</div>`).join('');
+
+    endScreen.classList.toggle('defeat', !win);
+    endScreen.classList.add('visible');
+    endScreen.setAttribute('aria-hidden', 'false');
+}
+
 const game = {
     handleAction(type) {
         if (gameData.isGameOver || gameData.victory || gameData.isBusy) return;
@@ -295,6 +322,7 @@ const game = {
 
         logMessage("--- Ночь наступила ---");
         sceneElement.classList.add('is-night');
+        showFloatingText('Ночь', 'night', 50, 30);
 
         const enemyPower = 15 + (gameData.day * 2);
         const defense = gameData.wallHealth + gameData.guardStrength;
@@ -332,12 +360,16 @@ const game = {
                 logMessage("Вы выстояли все 30 дней! Вы победили!");
             } else {
                 logMessage(`--- День ${gameData.day} --- Наступил новый день.`);
+                showFloatingText(`День ${gameData.day}`, 'day', 50, 30);
             }
         }
 
         // Ночь закончилась: снова можно действовать (если игра не окончена)
         gameData.isBusy = false;
         setActionsEnabled(!gameData.isGameOver && !gameData.victory);
+
+        if (gameData.isGameOver) await showEnding(false);
+        else if (gameData.victory) await showEnding(true);
     }
 };
 

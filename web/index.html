@@ -17,6 +17,7 @@
                 <div class="resource-item">Материя: <span id="fragments-count">0</span></div>
             </div>
         </header>
+        <div class="day-progress" aria-hidden="true"><div id="day-progress-fill"></div></div>
 
         <main>
             <!-- Этап 1: сцена. id-шники групп нужны для анимаций следующих этапов -->
@@ -68,10 +69,15 @@
                             <path d="M-11 0 C-14 -14 -8 -26 0 -26 C8 -26 14 -14 11 0 L7 -4 L3 0 L0 -4 L-3 0 L-7 -4 Z" fill="#2a1647" stroke="#8a4dff" stroke-width="1"/>
                             <circle cx="-4" cy="-16" r="2.2" fill="#ff4d6d"/><circle cx="4" cy="-16" r="2.2" fill="#ff4d6d"/>
                         </g>
+                    <linearGradient id="skyDay" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#4f78b8"/>
+                            <stop offset="1" stop-color="#f4c58c"/>
+                        </linearGradient>
                     </defs>
 
                     <!-- Небо -->
                     <rect width="800" height="340" fill="url(#sky)"/>
+                    <rect id="sky-day" width="800" height="340" fill="url(#skyDay)"/>
                     <g id="stars" fill="#fff">
                         <circle class="star" cx="60" cy="40" r="1.4" style="--d:0s"/>
                         <circle class="star" cx="130" cy="82" r="1" style="--d:.8s"/>
@@ -83,9 +89,22 @@
                         <circle class="star" cx="740" cy="70" r="1.2" style="--d:1.4s"/>
                         <circle class="star" cx="770" cy="30" r="1" style="--d:.2s"/>
                     </g>
-                    <circle cx="690" cy="52" r="20" fill="#e8e2c8" opacity=".8"/>
-                    <path d="M0 250 Q120 205 260 240 T520 232 T800 245 V340 H0Z" fill="#171431"/>
-                    <path d="M0 272 Q400 238 800 272 V340 H0Z" fill="#221f36"/>
+                    <circle class="moon" cx="690" cy="52" r="20" fill="#e8e2c8"/>
+                    <circle class="sun" cx="120" cy="64" r="22" fill="#ffe9a8"/>
+                    <path class="hill-far" d="M0 250 Q120 205 260 240 T520 232 T800 245 V340 H0Z" fill="#171431"/>
+                    <path class="hill-near" d="M0 272 Q400 238 800 272 V340 H0Z" fill="#221f36"/>
+                    <g id="rays" fill="#ffe9a8">
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(0 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(36 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(72 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(108 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(144 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(180 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(216 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(252 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(288 400 200)"/>
+                        <polygon points="400,200 388,-160 412,-160" transform="rotate(324 400 200)"/>
+                    </g>
 
                     <!-- Стены и башни -->
                     <g id="walls">
@@ -246,6 +265,13 @@
                 <button class="action-btn" onclick="game.handleAction('rest')">Отдых (Восстановление)</button>
             </div>
         </footer>
+
+        <div id="end-screen" role="dialog" aria-live="polite" aria-hidden="true">
+            <h2 id="end-title"></h2>
+            <p id="end-text"></p>
+            <div id="end-stats"></div>
+            <button class="action-btn" id="restart-btn" onclick="location.reload()">Играть снова</button>
+        </div>
     </div>
 
     <script src="game.js"></script>

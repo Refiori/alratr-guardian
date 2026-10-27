@@ -366,3 +366,111 @@ footer {
 
 .float-fragments { color: #c9a7ff; }
 .float-damage    { color: #ff6b6b; }
+
+/* ===== Этап 5: день и ночь, финал, адаптив ===== */
+
+/* Небо: днём светлое, ночью (класс is-night) тёмное со звёздами и луной */
+#sky-day { transition: opacity 1s ease; }
+#scene.is-night #sky-day, #scene.is-defeat #sky-day { opacity: 0; }
+
+#stars, .moon, .sun { transition: opacity 1s ease, transform 1.2s ease; }
+#stars { opacity: 0; }
+.moon { opacity: 0; transform: translateY(70px); }
+.sun { filter: drop-shadow(0 0 14px #ffe9a8); }
+#scene.is-night #stars, #scene.is-defeat #stars { opacity: 1; }
+#scene.is-night .moon, #scene.is-defeat .moon { opacity: .85; transform: none; }
+#scene.is-night .sun, #scene.is-defeat .sun { opacity: 0; transform: translateY(90px); }
+
+.hill-far  { fill: #4a5b82; transition: fill 1s ease; }
+.hill-near { fill: #3a4a52; transition: fill 1s ease; }
+#scene.is-night .hill-far, #scene.is-defeat .hill-far   { fill: #171431; }
+#scene.is-night .hill-near, #scene.is-defeat .hill-near { fill: #221f36; }
+
+/* Прогресс дней */
+.day-progress { height: 4px; background: #1b1b1b; border-radius: 2px; margin: -12px 0 12px; overflow: hidden; }
+#day-progress-fill {
+    height: 100%; width: 0;
+    background: linear-gradient(90deg, #8a6d1f, var(--accent-color));
+    transition: width .8s ease;
+}
+
+.float-day, .float-night { font-size: 1.6rem; letter-spacing: .08em; }
+.float-day   { color: #ffe9a8; }
+.float-night { color: #b8a8ff; }
+
+/* Лог: новые строки плавно появляются */
+.log-window p { margin: 3px 0; animation: log-in .4s ease-out; }
+@keyframes log-in { from { opacity: 0; transform: translateX(-6px); } }
+
+/* Победа: рассвет, лучи, стражники ликуют */
+#rays { opacity: 0; transition: opacity 1.5s ease; transform-origin: 400px 200px; }
+#scene.is-victory #rays { opacity: .45; animation: rays-spin 40s linear infinite; }
+@keyframes rays-spin { to { transform: rotate(360deg); } }
+#scene.is-victory .guard-body {
+    transform-origin: 50% 100%;
+    animation: cheer .7s ease-in-out infinite;
+    filter: drop-shadow(0 0 4px #ffd84d);
+}
+#scene.is-victory .halo { animation: halo-burst 2s ease-out infinite; }
+
+/* Поражение: серые краски, кристалл раскалывается, стражники падают */
+#scene svg { transition: filter 1s ease; }
+#scene.is-defeat svg { filter: grayscale(.7) brightness(.75); }
+#scene.is-defeat .crystal { animation: crystal-shatter .9s ease-out forwards; }
+#scene.is-defeat .halo { animation: none; opacity: 0; }
+#scene.is-defeat .spark { animation: none; opacity: 0; }
+#scene.is-defeat .guard-body {
+    transform-origin: 50% 100%;
+    animation: guard-fall .8s ease-in forwards;
+}
+@keyframes crystal-shatter {
+    0%   { opacity: 1; transform: scale(1); }
+    30%  { opacity: 1; transform: scale(1.5); filter: brightness(3); }
+    100% { opacity: 0; transform: scale(.2); }
+}
+@keyframes guard-fall { to { transform: rotate(80deg) translateY(2px); } }
+
+/* Экран конца игры */
+#game-container { position: relative; }
+#end-screen {
+    position: absolute; inset: 0; z-index: 20;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 24px; text-align: center;
+    background: rgba(10, 8, 24, .88);
+    border-radius: 5px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .8s ease;
+}
+#end-screen.visible { opacity: 1; pointer-events: auto; }
+#end-screen h2 { margin: 0; font-size: 2rem; color: var(--accent-color); }
+#end-screen.defeat h2 { color: #ff6b6b; }
+#end-screen p { margin: 0; max-width: 420px; }
+#end-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin: 6px 0 10px; }
+.stat { font-size: .85rem; opacity: .9; }
+.stat span { display: block; font-size: 1.6rem; font-weight: bold; color: var(--accent-color); }
+#restart-btn { padding: 12px 28px; font-size: 1rem; }
+
+/* Высота экрана на телефонах (если dvh не поддерживается, остаётся vh) */
+body { height: 100dvh; }
+#game-container { height: 90dvh; }
+.action-btn { touch-action: manipulation; }
+
+@media (max-width: 600px) {
+    #game-container { width: 96%; height: 96dvh; padding: 12px; }
+    header { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 14px; }
+    h1 { font-size: 1.2rem; }
+    .resource-bar { flex-wrap: wrap; gap: 6px 14px; font-size: .85rem; }
+    #scene { flex-basis: 38%; margin-bottom: 10px; }
+    .log-window { padding: 10px; margin-bottom: 10px; font-size: .85rem; }
+    .action-panel { grid-template-columns: repeat(2, 1fr); }
+    .action-btn { padding: 12px 6px; font-size: .85rem; }
+    footer { padding-top: 12px; }
+    .float-fx { font-size: .95rem; }
+    .float-day, .float-night { font-size: 1.3rem; }
+    #end-screen h2 { font-size: 1.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #end-screen, #day-progress-fill, #sky-day, #stars, .moon, .sun, .hill-far, .hill-near, #rays { transition: none !important; }
+    .log-window p, #scene.is-victory #rays { animation: none !important; }
+}
